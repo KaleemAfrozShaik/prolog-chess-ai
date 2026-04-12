@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { useProlog } from '../hooks/useProlog';
 
-const KING_SVG = (color) => (
-    <svg viewBox="0 0 24 24" fill={color} className="piece">
-        <path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.6 18.6 20 18 20H6C5.4 20 5 19.6 5 19V18H19V19Z" />
-    </svg>
-);
-
-const BOAT_SVG = (color) => (
-    <svg viewBox="0 0 24 24" fill={color} className="piece">
-        <path d="M20,21V19H18V17H20V15H18V13H20V11H18V9H20V7H18V5H20V3H4V5H6V7H4V9H6V11H4V13H6V15H4V17H6V19H4V21H20Z" />
-    </svg>
-);
+const USER_KING_IMG = <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg" className="piece" alt="User King" />;
+const SYSTEM_KING_IMG = <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg" className="piece" alt="System King" />;
+const USER_BOAT_IMG = <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg" className="piece" alt="User Boat" />;
 
 const ChessBoard = ({ board, setBoard, isUserTurn, setIsUserTurn, addLog, winner, setWinner }) => {
     const { isLoaded, getValidMoves, checkMove, getBestMove } = useProlog();
@@ -56,7 +48,7 @@ const ChessBoard = ({ board, setBoard, isUserTurn, setIsUserTurn, addLog, winner
                 }
 
                 setIsUserTurn(false);
-                triggerSystemTurn(newBoard);
+                setTimeout(() => triggerSystemTurn(newBoard), 50);
             } else {
                 setSelectedPiece(null);
                 setValidMoves([]);
@@ -116,9 +108,11 @@ const ChessBoard = ({ board, setBoard, isUserTurn, setIsUserTurn, addLog, winner
                         className={`square ${isDark ? 'dark' : 'light'} ${isValid ? 'valid' : ''}`}
                         onClick={() => handleSquareClick(x, y)}
                     >
-                        {isUK && KING_SVG('#fbbf24')}
-                        {isUB && BOAT_SVG('#38bdf8')}
-                        {isSK && KING_SVG('#ef4444')}
+                        {x === 0 && <span className="rank-label">{8 - y}</span>}
+                        {y === 7 && <span className="file-label">{String.fromCharCode(97 + x)}</span>}
+                        {isUK && USER_KING_IMG}
+                        {isUB && USER_BOAT_IMG}
+                        {isSK && SYSTEM_KING_IMG}
                     </div>
                 );
             }

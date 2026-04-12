@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const SidePanel = ({ points, logs, onReset }) => {
+    const logContainerRef = useRef(null);
+
+    useEffect(() => {
+        if (logContainerRef.current) {
+            logContainerRef.current.scrollTo({
+                top: logContainerRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }, [logs]);
+
     return (
         <div className="side-panel glass animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="stat-card glass">
@@ -8,7 +19,7 @@ const SidePanel = ({ points, logs, onReset }) => {
                 <div className="stat-value">{points}</div>
             </div>
 
-            <div className="log-container glass">
+            <div className="log-container glass" ref={logContainerRef}>
                 {logs.map((log, i) => (
                     <div key={i} className={`log-entry ${log.type}`}>
                         {log.text}
