@@ -1,26 +1,29 @@
-# AI Chess Engine (Prolog + React)
-
-A browser-based chess variant powered by a **Prolog AI engine** and a **React + Vite** frontend.
+# AI-Chess (Prolog-powered React App)
 
 ## Overview
+AI-Chess is a browser-based chess variant that uniquely blends modern web technologies with classical logical programming. The game features a User King and a unique "User Boat" piece playing against a "System King". Built using a clean and responsive glassmorphism UI in React, the application handles all complex game logic, movement bounds, point scoring, and opponent AI directly in the browser via Tau-Prolog.
 
-This project beautifully integrates classic declarative logic programming directly into a modern web stack:
+## Technical Stack
+- **Frontend Framework**: React 19 + Vite 6
+- **Styling**: Vanilla CSS with modern Glassmorphism aesthetics and custom animations.
+- **Game Engine & AI**: Tau-Prolog (an ISO Prolog interpreter in JavaScript). The AI utilizes a built-in Minimax algorithm with Alpha-Beta pruning (search depth of 3) to evaluate potential board states natively without an external backend server.
 
-- **Frontend**: Built with React and structured using clean, glassmorphism UI principles. The responsive board dynamically highlights valid paths.
-- **Backend/AI Loop**: Leverages **Tau Prolog**, an ISO Prolog interpreter completely in JavaScript, allowing Prolog predicates to run locally in the browser with no external server required.
-- **Game Logic**: Uses a Minimax algorithm executing in Prolog via a unified `.pl` logic source. Features a complete set of rules around collisions, grid bounds, unique piece abilities (e.g. King logic vs Boat logic), and game-over detection (Capture-to-Win). Wait times are natural as it evaluates thousands of board possibilities natively!
+## Features
+- **Unique Game Rules**: Control a **User King** (1-step omnidirectional movement) and a **User Boat** (moves like a Rook, sliding vertically and horizontally without jumping). 
+- **Point System**: Moves impose a cost (King moves cost 10 points, Boat moves cost 20 points). Capturing the System King awards maximum points and victory.
+- **Client-Side AI Opponent**: The System King dynamically evaluates the board using calculated distance metrics and Minimax depth-search, planning an optimal escape sequence or an aggressive capture of your King to cause a defeat.
+- **Premium Design**: Smooth user interactions with valid-move highlighting, detailed event logging, and an immersive UI.
 
-## Play
+## How to Play
+1. **Installation**: Clone the repository and install dependencies using `npm install`.
+2. **Start Game**: Run `npm run dev` to launch the local Vite development server.
+3. **Gameplay**: 
+   - Click on your active pieces (User King or User Boat) to generate and view valid highlighted squares.
+   - Click a highlighted square to execute your move.
+   - Wait for the System King to think and execute its optimal response.
+   - Box in and capture the System King to achieve Victory!
 
-1. Clone the repo and install dependencies with `npm install`
-2. Start the local dev server using `npm run dev`
-3. Click on the User King (yellow crown) to view valid generated moves, select a destination, and let the AI counterpart ponder its best move. Capture the System King to gain victory!
-
-## Technologies
-
-- React 19
-- Vite 6
-- Tau-Prolog 0.3.x
-- Vanilla CSS with custom glassmorphism styles
-
-Enjoy outplaying the Prolog simulation!
+## Core Project Structure
+- `src/components/`: Contains React UI components (`ChessBoard.jsx`, `SidePanel.jsx`).
+- `src/logic/`: Houses the core rules and calculations, specifically `game.pl` (the Prolog rulebase holding all rule bounds and the Minimax definitions).
+- `src/hooks/`: Includes `useProlog.js`, a custom React hook that initializes the Tau-Prolog session, manages resolution step limits, and serves asynchronous promises for move validation and AI query requests.
